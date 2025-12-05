@@ -24,17 +24,30 @@
 
 	<title>@yield('title') | Grocy</title>
 
-	<link href="{{ $U('/packages/@fontsource/roboto/400.css?v=', true) }}{{ $version }}"
-		rel="stylesheet">
-	<link href="{{ $U('/packages/@fontsource/roboto/500.css?v=', true) }}{{ $version }}"
-		rel="stylesheet">
-	<link href="{{ $U('/packages/@fontsource/roboto/700.css?v=', true) }}{{ $version }}"
-		rel="stylesheet">
-	<link href="{{ $U('/packages/bootstrap/dist/css/bootstrap.min.css?v=', true) }}{{ $version }}"
-		rel="stylesheet">
-	<link href="{{ $U('/packages/@fortawesome/fontawesome-free/css/fontawesome.min.css?v=', true) }}{{ $version }}"
-		rel="stylesheet">
-	<link href="{{ $U('/packages/@fortawesome/fontawesome-free/css/solid.min.css?v=', true) }}{{ $version }}"
+        <link href="{{ $U('/packages/@fontsource/roboto/400.css?v=', true) }}{{ $version }}"
+                rel="stylesheet">
+        <link href="{{ $U('/packages/@fontsource/roboto/500.css?v=', true) }}{{ $version }}"
+                rel="stylesheet">
+        <link href="{{ $U('/packages/@fontsource/roboto/700.css?v=', true) }}{{ $version }}"
+                rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+                tailwind.config = {
+                        theme: {
+                                extend: {
+                                        colors: {
+                                                primary: '#22c55e',
+                                                surface: '#0f172a'
+                                        }
+                                }
+                        }
+                }
+        </script>
+        <link href="{{ $U('/packages/bootstrap/dist/css/bootstrap.min.css?v=', true) }}{{ $version }}"
+                rel="stylesheet">
+        <link href="{{ $U('/packages/@fortawesome/fontawesome-free/css/fontawesome.min.css?v=', true) }}{{ $version }}"
+                rel="stylesheet">
+        <link href="{{ $U('/packages/@fortawesome/fontawesome-free/css/solid.min.css?v=', true) }}{{ $version }}"
 		rel="stylesheet">
 	<link href="{{ $U('/packages/toastr/build/toastr.min.css?v=', true) }}{{ $version }}"
 		rel="stylesheet">
@@ -130,47 +143,57 @@
 </head>
 
 <body class="fixed-nav @if(boolval($userSettings['night_mode_enabled_internal'])) night-mode @endif @if($embedded) embedded @endif">
-	@if(!$embedded)
-	<nav id="mainNav"
-		class="navbar navbar-expand-lg navbar-light fixed-top">
-		<a class="navbar-brand py-0"
-			href="{{ $U('/') }}">
-			<img src="{{ $U('/img/logo.svg?v=', true) }}{{ $version }}"
-				width="114"
-				height="30">
-		</a>
-		<span id="clock-container"
-			class="text-muted font-italic d-none">
-			<i class="fa-solid fa-clock"></i>
-			<span id="clock-small"
-				class="d-inline d-sm-none"></span>
-			<span id="clock-big"
-				class="d-none d-sm-inline"></span>
-		</span>
+        @if(!$embedded)
+        <nav id="mainNav"
+                class="navbar navbar-expand-lg navbar-light fixed-top bg-slate-900 text-white shadow-xl border-b border-slate-800 px-3 md:px-5">
+                <div class="flex items-center justify-between w-full">
+                        <div class="flex items-center gap-3">
+                                <a class="navbar-brand py-0 flex items-center gap-3 px-3 py-2 rounded-2xl bg-white/5 hover:bg-white/10 transition"
+                                        href="{{ $U('/') }}">
+                                        <img src="{{ $U('/img/logo.svg?v=', true) }}{{ $version }}"
+                                                class="h-7 w-auto"
+                                                width="114"
+                                                height="30">
+                                        <span class="hidden md:block text-white font-semibold tracking-tight">Grocy</span>
+                                </a>
+                                <span id="clock-container"
+                                        class="text-slate-200/80 font-medium hidden sm:flex items-center gap-2">
+                                        <i class="fa-solid fa-clock"></i>
+                                        <span id="clock-small"
+                                                class="d-inline d-sm-none"></span>
+                                        <span id="clock-big"
+                                                class="hidden sm:inline"></span>
+                                </span>
+                        </div>
 
-		@if(GROCY_AUTHENTICATED)
-		<button class="navbar-toggler navbar-toggler-right"
-			type="button"
-			data-toggle="collapse"
-			data-target="#sidebarResponsive">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+                        @if(GROCY_AUTHENTICATED)
+                        <div class="flex items-center gap-2">
+                                <button class="navbar-toggler navbar-toggler-right inline-flex items-center justify-center rounded-xl bg-white/10 px-3 py-2 text-white hover:bg-white/20 focus:ring-2 focus:ring-primary"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#sidebarResponsive">
+                                        <span class="navbar-toggler-icon"></span>
+                                </button>
+                        </div>
+                        @endif
+                </div>
 
-		<div id="sidebarResponsive"
-			class="collapse navbar-collapse">
-			<ul class="navbar-nav navbar-sidenav">
+                @if(GROCY_AUTHENTICATED)
+                <div id="sidebarResponsive"
+                        class="collapse navbar-collapse mt-3 md:mt-4">
+                        <ul class="navbar-nav navbar-sidenav bg-slate-900 rounded-2xl shadow-2xl pt-4 pb-6 px-2">
 
-				@if(GROCY_FEATURE_FLAG_STOCK)
-				<li class="nav-item nav-item-sidebar @if($viewName == 'stockoverview') active-page @endif"
-					data-toggle="tooltip"
-					data-placement="right"
-					title="{{ $__t('Stock overview') }}">
-					<a class="nav-link discrete-link"
-						href="{{ $U('/stockoverview') }}">
-						<i class="fa-solid fa-fw fa-box"></i>
-						<span class="nav-link-text">{{ $__t('Stock overview') }}</span>
-					</a>
-				</li>
+                                @if(GROCY_FEATURE_FLAG_STOCK)
+                                <li class="nav-item nav-item-sidebar @if($viewName == 'stockoverview') active-page @endif"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="{{ $__t('Stock overview') }}">
+                                        <a class="nav-link discrete-link"
+                                                href="{{ $U('/stockoverview') }}">
+                                                <i class="fa-solid fa-fw fa-box"></i>
+                                                <span class="nav-link-text">{{ $__t('Stock overview') }}</span>
+                                        </a>
+                                </li>
 				@endif
 				@if(GROCY_FEATURE_FLAG_SHOPPINGLIST)
 				<li class="nav-item nav-item-sidebar @if($viewName == 'shoppinglist') active-page @endif"
@@ -457,16 +480,16 @@
 				</li>
 			</ul>
 
-			<ul class="navbar-nav sidenav-toggler">
-				<li class="nav-item">
-					<a id="sidenavToggler"
-						class="nav-link text-center">
-						<i class="fa-solid fa-angle-left"></i>
-					</a>
-				</li>
-			</ul>
+                        <ul class="navbar-nav sidenav-toggler hidden lg:flex items-center pl-2">
+                                <li class="nav-item">
+                                        <a id="sidenavToggler"
+                                                class="nav-link text-center rounded-xl bg-white/10 text-white hover:bg-white/20 transition">
+                                                <i class="fa-solid fa-angle-left"></i>
+                                        </a>
+                                </li>
+                        </ul>
 
-			<ul class="navbar-nav ml-auto">
+                        <ul class="navbar-nav ml-auto flex items-center gap-2 text-slate-200">
 				@if(GROCY_AUTHENTICATED && !GROCY_IS_EMBEDDED_INSTALL && !GROCY_DISABLE_AUTH)
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle discrete-link @if(!empty(GROCY_USER_PICTURE_FILE_NAME)) py-0 @endif"
@@ -685,16 +708,18 @@
 	</nav>
 	@endif
 
-	<div class="@if(GROCY_AUTHENTICATED) content-wrapper @endif pt-0">
-		<div class="container-fluid @if(GROCY_AUTHENTICATED && !$embedded) pr-1 pl-md-3 pl-2 @endif @if($embedded) px-1 @endif">
-			<div class="row mb-3">
-				<div id="page-content"
-					class="col content-text">
-					@yield('content')
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="@if(GROCY_AUTHENTICATED) content-wrapper @endif pt-0 bg-gradient-to-br from-slate-50 via-white to-slate-100">
+                <div class="container-fluid @if(GROCY_AUTHENTICATED && !$embedded) pr-1 pl-md-3 pl-2 @endif @if($embedded) px-1 @endif">
+                        <div class="row mb-3">
+                                <div id="page-content"
+                                        class="col content-text">
+                                        <div class="app-surface @if($embedded) app-surface-embedded @endif">
+                                                @yield('content')
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
 
 	<script src="{{ $U('/packages/jquery/dist/jquery.min.js?v=', true) }}{{ $version }}"></script>
 	<script src="{{ $U('/packages/bootstrap/dist/js/bootstrap.bundle.min.js?v=', true) }}{{ $version }}"></script>
